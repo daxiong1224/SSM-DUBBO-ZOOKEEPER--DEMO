@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demo.dao.EmployeeDao">
+    <resultMap type="com.demo.pojo.Employee" id="EmployeeResult">
+        <!--column 指的的是表查询出来的列名，也就是说如果查询的时候给列名取了别名那这里要写别名的值
+         property 实体对象的属性名-->
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="ACCOUNT" jdbcType="VARCHAR" property="account"/>
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="CHARACTER" jdbcType="VARCHAR" property="character"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+
+    </resultMap>
+
+    <select id="loginValidate" parameterType="com.demo.pojo.Employee" resultMap="EmployeeResult">
+        SELECT ID,ACCOUNT,PASSWORD,NAME,CHARACTER,STATUS FROM TB_EMPLOYEE
+        where ACCOUNT=#{account} and PASSWORD=#{password}
+    </select>
+
+    <!--<select id="findEmployee" parameterType="employee" resultMap="EmployeeResult">-->
+        <!--SELECT ID,ACCOUNT,NAME,CHARACTER,STATUS FROM TB_EMPLOYEE-->
+    <!--</select>-->
+
+    <select id="findEmployeeByPage" parameterType="java.util.Map" resultMap="EmployeeResult">
+    <!--SELECT ID,ACCOUNT,NAME,CHARACTER,STATUS FROM TB_EMPLOYEE-->
+        <!--<if test="start!=null and size!=null">-->
+            <!--limit #{start},#{size}-->
+         <!--</if>-->
+
+        select ID,ACCOUNT,NAME,CHARACTER,STATUS from
+        (select d.*,rownum rownu  from tb_employee d where rownum&lt;=#{end}) t where t.rownu&gt;#{start}
+    </select>
+
+    <select id="selectCount"  resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM TB_EMPLOYEE
+    </select>
+
+    <insert id="addEmployee" parameterType="employee">
+        INSERT  INTO  TB_EMPLOYEE(ACCOUNT,PASSWORD,NAME,CHARACTER,STATUS)
+                            VALUES(#{account},#{password},#{name},#{character},#{status})
+    </insert>
+
+    <delete id="deleteEmployee" parameterType="java.lang.Integer">
+        DELETE FROM TB_EMPLOYEE WHERE ID=#{id}
+    </delete>
+
+    <update id="updateEmployee" parameterType="employee">
+        UPDATE TB_EMPLOYEE SET ACCOUNT=#{account},
+                               NAME=#{name},
+                               CHARACTER=#{character},
+                               STATUS=#{status}
+        WHERE ID=#{id}
+    </update>
+</mapper>

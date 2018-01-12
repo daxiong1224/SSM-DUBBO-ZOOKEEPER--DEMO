@@ -1,0 +1,8 @@
+[
+         {id: "user",                 text: "用户管理"},
+         {id: "drug",                 text: "药品管理"},
+         {id: "acountManagement",     text: "账号管理",             pid: "user",  url:"/Employee/JumpToAccountPage"},
+         {id: "directoryMaintenance", text: "药品目录维护" ,        pid: "drug",    url:"/Drug/JumpToDrugPage"},
+         {id: "stockSearch",          text: "出入库操作" ,          pid: "drug",   url:"/Inventory/JumpToInventoryPage"},
+         {id: "stock",                text: "操作记录与库存统计" ,   pid: "drug",   url:"/OperationRecord/JumpToOperationRecordPage"}
+]

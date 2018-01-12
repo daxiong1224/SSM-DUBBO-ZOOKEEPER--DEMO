@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demo.dao.EmployeeDao">
+    <resultMap type="com.demo.pojo.Employee" id="EmployeeResult">
+        <!--column 指的的是表查询出来的列名，也就是说如果查询的时候给列名取了别名那这里要写别名的值
+         property 实体对象的属性名-->
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="ACCOUNT" jdbcType="VARCHAR" property="account"/>
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="CHARACTER" jdbcType="VARCHAR" property="character"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+    </resultMap>
+
+    <select id="loginValidate" parameterType="com.demo.pojo.Employee" resultMap="EmployeeResult">
+        SELECT ID,ACCOUNT,PASSWORD,NAME,CHARACTER,STATUS FROM TB_EMPLOYEE
+        where account=${account} and password=${password}
+    </select>
+
+</mapper>

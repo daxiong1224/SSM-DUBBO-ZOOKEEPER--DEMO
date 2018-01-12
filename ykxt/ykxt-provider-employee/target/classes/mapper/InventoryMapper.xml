@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.InventoryDao">
+    <resultMap id="InventoryResult" type="inventory">
+        <id column="ID" jdbcType="INTEGER" property="id"></id>
+        <result column="DRUG_ID" jdbcType="INTEGER" property="drugId"></result>
+        <result column="INVENTORY_NUMBER" jdbcType="INTEGER" property="inventoryNumber"></result>
+        
+        <association property="drug" javaType="com.demo.pojo.Drug">
+            <id column="ID" jdbcType="INTEGER" property="id"/>
+            <result column="DRUG_NUMBER" jdbcType="VARCHAR" property="drug_number"/>
+            <result column="NAME" jdbcType="VARCHAR" property="name"/>
+            <result column="COMMON_NAME" jdbcType="VARCHAR" property="common_name"/>
+            <result column="CATEGORY" jdbcType="VARCHAR" property="category"/>
+            <result column="SPECIFICATION" jdbcType="VARCHAR" property="specification"/>
+            <result column="ORIGIN" jdbcType="VARCHAR" property="origin"/>
+            <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        </association>
+    </resultMap>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM TB_INVENTORY
+    </select>
+
+    <select id="findInventoryByPage" resultMap="InventoryResult" parameterType="java.util.Map">
+
+    SELECT
+        e.ID,e.DRUG_ID,e.INVENTORY_NUMBER,m.ID,m.DRUG_NUMBER,m.NAME,m.COMMON_NAME,m.CATEGORY,m.SPECIFICATION,m.ORIGIN,m.STATUS
+    from (
+         select ID,INVENTORY_NUMBER,DRUG_ID from
+            (select d.ID,d.INVENTORY_NUMBER,d.DRUG_ID,rownum rownu  from TB_INVENTORY d where rownum&lt;=#{end}) t
+          where t.rownu&gt;#{start}) e
+    LEFT JOIN TB_DRUG m ON e.DRUG_ID=m.ID
+    </select>
+
+    <insert id="initializeInsert" parameterType="com.demo.pojo.Inventory">
+        INSERT INTO TB_INVENTORY(DRUG_ID,INVENTORY_NUMBER)
+        VALUES (#{drugId},#{inventoryNumber})
+    </insert>
+
+    <update id="updateInventoryNumber" parameterType="java.util.Map">
+        UPDATE TB_INVENTORY SET  INVENTORY_NUMBER=#{inventoryNumber}
+        WHERE ID=#{id}
+    </update>
+
+    <select id="findAll" resultMap="InventoryResult">
+        SELECT
+          e.ID,e.DRUG_ID,e.INVENTORY_NUMBER,m.ID,m.DRUG_NUMBER,m.NAME,m.COMMON_NAME,m.CATEGORY,m.SPECIFICATION,m.ORIGIN,m.STATUS
+        FROM TB_INVENTORY e
+        LEFT JOIN TB_DRUG m ON e.DRUG_ID=m.ID
+    </select>
+</mapper>

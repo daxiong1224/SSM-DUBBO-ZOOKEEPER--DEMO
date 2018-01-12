@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demo.dao.DrugDao">
+    <resultMap id="DrugResultMap" type="drug">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="DRUG_NUMBER" jdbcType="VARCHAR" property="drug_number"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="COMMON_NAME" jdbcType="VARCHAR" property="common_name"/>
+        <result column="CATEGORY" jdbcType="VARCHAR" property="category"/>
+        <result column="SPECIFICATION" jdbcType="VARCHAR" property="specification"/>
+        <result column="ORIGIN" jdbcType="VARCHAR" property="origin"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+    </resultMap>
+
+    <select id="selectCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM TB_DRUG
+    </select>
+
+    <select id="findDrugByPage" resultType="java.util.Map" resultMap="DrugResultMap">
+        SELECT
+            ID,DRUG_NUMBER,NAME,COMMON_NAME,CATEGORY,SPECIFICATION,ORIGIN,STATUS
+        FROM (SELECT d.*,ROWNUM NUM FROM TB_DRUG d WHERE ROWNUM	&lt;=#{end}) t WHERE  t.NUM>#{start}
+    </select>
+
+    <insert id="addDrug"  parameterType="drug">
+        INSERT INTO TB_DRUG(DRUG_NUMBER,NAME,COMMON_NAME,CATEGORY,SPECIFICATION,ORIGIN,STATUS)
+        VALUES (#{drug_number},#{name},#{common_name},#{category},#{specification},#{origin},#{status})
+    </insert>
+
+    <update id="updateDrug" parameterType="drug">
+        UPDATE TB_DRUG SET
+                DRUG_NUMBER= #{drug_number},
+                NAME= #{name},
+                COMMON_NAME= #{common_name},
+                CATEGORY= #{category},
+                SPECIFICATION= #{specification},
+                ORIGIN= #{origin},
+                STATUS= #{status}
+        WHERE ID=#{id}
+    </update>
+
+    <delete id="deleteDrug" parameterType="java.lang.Integer">
+        DELETE FROM TB_DRUG WHERE ID=#{id}
+    </delete>
+
+    <select id="findIdByNumber" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT ID FROM TB_DRUG WHERE DRUG_NUMBER= #{drugNumber}
+    </select>
+
+</mapper>

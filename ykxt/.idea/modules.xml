@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ykxt.iml" filepath="$PROJECT_DIR$/ykxt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ykxt-api/ykxt-api.iml" filepath="$PROJECT_DIR$/ykxt-api/ykxt-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ykxt-consumer/ykxt-consumer.iml" filepath="$PROJECT_DIR$/ykxt-consumer/ykxt-consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ykxt-provider-employee/ykxt-provider-employee.iml" filepath="$PROJECT_DIR$/ykxt-provider-employee/ykxt-provider-employee.iml" />
+    </modules>
+  </component>
+</project>

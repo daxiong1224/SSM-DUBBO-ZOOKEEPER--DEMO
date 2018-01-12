@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ykxt-provider:war">
+    <output-path>$PROJECT_DIR$/ykxt-provider/target</output-path>
+    <root id="archive" name="ykxt-provider.war">
+      <element id="artifact" artifact-name="ykxt-provider:war exploded" />
+    </root>
+  </artifact>
+</component>

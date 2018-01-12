@@ -1,0 +1,4 @@
+[
+     {id: "drug", text: "药品管理"},
+     {text: "出入库操作" , pid: "drug",url:"/Inventory/JumpToInventoryPage"}
+ ]
